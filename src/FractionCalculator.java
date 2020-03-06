@@ -1,63 +1,73 @@
 import java.util.Scanner;
 
 public class FractionCalculator {
+	
+	static Scanner input = new Scanner(System.in);
+	static Fraction frac;
+	static Fraction frac2;
+	static int validFunctions = 0;
 
 	public static void main(String[] args) {
+						
+		start();	
 		
-		Scanner input = new Scanner(System.in);
-		Fraction frac;
-		Fraction frac2;
-		int validFunctions = 0;
-		
-		
-		/*
-		frac = new Fraction(-5, 0);
-		frac2 = new Fraction(3, 2);
-		*/
-		
-		/*
-		System.out.print("Enter first fraction numerator: ");
-		int i = input.nextInt();
-		System.out.print("Enter first fraction denominator: ");
-		int j = input.nextInt();
-		
-		try {
-			frac = new Fraction(i, j);
-		} catch(IllegalArgumentException e) {
-			System.out.println("szopogép");
-		}
-		*/
-		
-		/*
-		System.out.println(frac.getNumerator());
-		System.out.println(frac.getDenominator());
-		System.out.println(frac.toString());
-		System.out.println(frac.toDouble());
-		System.out.println(frac.add(frac2));
-		System.out.println(frac.substract(frac2));
-		*/
 	}
 	
-	private String getOperation(Scanner input) {
-		System.out.println("Enter an operation (+, -, *, /, =, Q): ");
-		String op = input.next();
-		if(op == "+" || op == "-" || op == "*" || op == "/" || op == "=" || op == "q" || op == "Q") {
-			return op;
+	public static void start() {
+		while(true) {
+			String operation = getOperation(input);
+			if(operation.equals("Q")) {
+				input.close();
+				System.out.println("Program quitting...");
+				System.exit(0);
+			}
+			frac = getFraction(input);
+			frac2 = getFraction(input);
 		}
-		return "";
 	}
 	
-	private Fraction getFraction(Scanner input) {
+	private static String getOperation(Scanner input) {
+		System.out.println("Enter an operation (+, -, *, /, = or Q to quit): ");
+		String op;
+		
+		while(true) {
+			op = input.next();
+			if(op.equals("+") || op.equals("+") || op.equals("-") || op.equals("*") || 
+					op.equals("/") || op.equals("=") || op.toUpperCase().equals("Q")) {
+				return op.toUpperCase();
+			}
+			System.out.println("Wrong operation, try again: ");			
+		}
+	}
+	
+	private static Fraction getFraction(Scanner input) {
 		System.out.println("Enter fraction: ");
-		String fractionString = input.next();
-		if(validFraction(fractionString)) {
-			
-		}
+		String fractionString;
+		int num, denom;
 		
+		while(true) {		
+		fractionString = input.next();
+		if(validFraction(fractionString)) {
+			if(fractionString.indexOf("/") > 0) {
+				num = Integer.parseInt( fractionString.substring(0, fractionString.indexOf("/")) );
+				denom = Integer.parseInt( fractionString.substring(fractionString.indexOf("/") + 1) );
+				return new Fraction(num,denom);
+			} else {
+				return new Fraction(Integer.parseInt(fractionString));
+			}
+		}
+		System.out.println("Invalid fraction, try again:");
+		}
 	}
 	
-	private boolean validFraction(String input) {
+	private static boolean validFraction(String input) {
 		
+		return true;
+	}
+	
+	private static boolean isNumber(String s) {
+		
+		return false;
 	}
 
 }

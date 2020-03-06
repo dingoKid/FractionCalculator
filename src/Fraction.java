@@ -7,7 +7,8 @@ public class Fraction {
 	public Fraction(int num, int denom) {
 		if(denom == 0) throw new IllegalArgumentException();
 		this.numerator = denom < 0 ? num*(-1) : num;
-		this.denominator = denom < 0 ? denom*(-1) : denom;		
+		this.denominator = denom < 0 ? denom*(-1) : denom;
+		System.out.println("Created fraction: " + this.toString());
 	}
 	
 	public Fraction(int num) {
