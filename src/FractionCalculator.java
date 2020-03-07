@@ -61,8 +61,25 @@ public class FractionCalculator {
 	}
 	
 	private static boolean validFraction(String input) {
-		
-		return true;
+		String num;
+		String denom;
+		if(input.indexOf("/") > 0) {
+			num = input.substring(0, input.indexOf("/"));
+			denom = input.substring(input.indexOf("/") + 1);
+			if( isValid(num) && isValid(denom) ) {
+				return true;
+			} else return false;
+		} else {
+			return isValid(input);
+		}
+	}
+	
+	private static boolean isValid(String s) {
+		if( s.indexOf("-") > 0 && s.indexOf("-" == 0) ) {
+			return isNumber(s);
+		} else if( s.indexOf("-") > 0 && s.indexOf("-" != 0) ) {
+			return false;
+		} else return isNumber(s);
 	}
 	
 	private static boolean isNumber(String s) {
