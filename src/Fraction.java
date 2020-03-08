@@ -5,7 +5,6 @@ public class Fraction {
 	private int denominator;
 	
 	public Fraction(int num, int denom) {
-		if(denom == 0) throw new IllegalArgumentException();
 		this.numerator = denom < 0 ? num*(-1) : num;
 		this.denominator = denom < 0 ? denom*(-1) : denom;
 		System.out.println("Created fraction: " + this.toString());
@@ -60,6 +59,45 @@ public class Fraction {
 		int denom = this.denominator*other.numerator;
 		return new Fraction(num, denom);
 	}
+	
+	
+	@Override
+	public boolean equals(Object other) {
+		if(!(other instanceof Fraction)) {
+			return false;
+		}
+		Fraction temp = (Fraction) other;
+		if(temp.toDouble() == this.toDouble()) {
+			return true;
+		}
+		return false;
+	}
+	
+	public void toLowestTerms() {
+		int gcd = gcd(this.numerator, this.denominator);
+		this.numerator /= gcd;
+		this.denominator /= gcd;
+	}
+	
+	public int gcd(int num, int denom) {
+		return euclidean(num, denom, 0);
+	}
+	
+	private int euclidean(int a, int b, int gcd) {
+		if(b == 0) return a;
+		gcd = a % b;
+		a = b;
+		b = gcd;
+		System.out.println(a);
+		System.out.println(b);
+		System.out.println(gcd);
+		return euclidean(a, b, gcd);
+	}
+	
+	
+	
+	
+	
 	
 
 }
