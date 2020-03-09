@@ -2,22 +2,19 @@ import java.util.Scanner;
 
 public class FractionCalculator {
 	
-	static Scanner input = new Scanner(System.in);
+	static Scanner input = new Scanner(System.in);	
 	static Fraction frac;
 	static Fraction frac2;
+	static Fraction result;
 	static String operation;
 
 	public static void main(String[] args) {
-						
-		//start();
-		frac = new Fraction(105,147);
-		frac.toLowestTerms();
-		System.out.println(frac.toString());
-		
+		start();		
 	}
 	
 	public static void start() {
 		while(true) {
+			result = null;
 			operation = getOperation(input);
 			if(operation.equals("Q")) {
 				input.close();
@@ -26,12 +23,26 @@ public class FractionCalculator {
 			}
 			frac = getFraction(input);
 			frac2 = getFraction(input);
-			if(operation.equals("+")) System.out.println(frac.add(frac2).toString());
-			if(operation.equals("-")) System.out.println(frac.substract(frac2).toString());
-			if(operation.equals("*")) System.out.println(frac.multiply(frac2).toString());
-			if(operation.equals("/")) System.out.println(frac.divide(frac2).toString());
-			if(operation.equals("=")) System.out.println(frac.equals(frac2));
-			
+			if(operation.equals("+")) result = frac.add(frac2);					
+			if(operation.equals("-")) result = frac.substract(frac2);			
+			if(operation.equals("*")) result = frac.multiply(frac2);
+			try {
+				if(operation.equals("/")) result = frac.divide(frac2);
+			} catch (IllegalArgumentException e) {
+				System.out.println("The denominator can not be 0!");
+				continue;
+			}
+			if(operation.equals("=")) {
+				System.out.println(frac + " " + operation + " " + frac2 + " is " + frac.equals(frac2));
+			}
+			if(result != null) {
+				result.toLowestTerms();
+				if(result.getNumerator() % result.getDenominator() == 0) {
+					System.out.println(frac + " " + operation + " " + frac2 + " = " + (int) result.toDouble());
+				} else {
+					System.out.println(frac + " " + operation + " " + frac2 + " = " + result);
+				}
+			}
 		}
 	}
 	
@@ -40,12 +51,14 @@ public class FractionCalculator {
 		String op;
 		
 		while(true) {
-			op = input.next();
+			op = input.nextLine();
+			op = op.replaceAll("\\s", "");
 			if(op.equals("+") || op.equals("+") || op.equals("-") || op.equals("*") || 
 					op.equals("/") || op.equals("=") || op.toUpperCase().equals("Q")) {
 				return op.toUpperCase();
+			} else {
+				System.out.println("Wrong operation, try again: ");
 			}
-			System.out.println("Wrong operation, try again: ");			
 		}
 	}
 	
@@ -55,7 +68,8 @@ public class FractionCalculator {
 		int num, denom;
 		
 		while(true) {		
-		fractionString = input.next();		
+		fractionString = input.nextLine();
+		fractionString = fractionString.replaceAll("\\s", "");
 		if(validFraction(fractionString)) {
 			if(fractionString.indexOf("/") > 0) {
 				num = Integer.parseInt( fractionString.substring(0, fractionString.indexOf("/")) );
@@ -79,17 +93,17 @@ public class FractionCalculator {
 		if( input.indexOf("/") > 0 && input.indexOf("/") == input.lastIndexOf("/") ) {
 			num = input.substring(0, input.indexOf("/"));
 			denom = input.substring(input.indexOf("/") + 1);
-			if( signed(num) && signed(denom) ) {
+			if( isSigned(num) && isSigned(denom) ) {
 				return true;
 			} else return false;
 		} else if( input.indexOf("/") > 0 && input.indexOf("/") != input.lastIndexOf("/") ) { 
 			return false;
 		} else if(input.indexOf("/") == 0) {
 			return false;
-		} else return signed(input);
+		} else return isSigned(input);
 	}
 	
-	private static boolean signed(String s) {
+	private static boolean isSigned(String s) {
 		if( s.indexOf("-") == 0 ) {
 			return isNumber(s.substring(1));
 		} else if( s.indexOf("-") > 0 ) {

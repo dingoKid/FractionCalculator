@@ -7,7 +7,6 @@ public class Fraction {
 	public Fraction(int num, int denom) {
 		this.numerator = denom < 0 ? num*(-1) : num;
 		this.denominator = denom < 0 ? denom*(-1) : denom;
-		System.out.println("Created fraction: " + this.toString());
 	}
 	
 	public Fraction(int num) {
@@ -53,11 +52,13 @@ public class Fraction {
 		return new Fraction(num, denom);
 	}
 		
-	public Fraction divide(Fraction other) throws IllegalArgumentException {		
-		if(other.toDouble() == 0) throw new IllegalArgumentException("The denominator can not be 0!");			
+	public Fraction divide(Fraction other) {
+		if(other.toDouble() == 0) {
+			throw new IllegalArgumentException();
+		}
 		int num = this.numerator*other.denominator;
 		int denom = this.denominator*other.numerator;
-		return new Fraction(num, denom);
+		return new Fraction(num, denom);		
 	}
 	
 	
@@ -79,25 +80,15 @@ public class Fraction {
 		this.denominator /= gcd;
 	}
 	
-	public int gcd(int num, int denom) {
+	private static int gcd(int num, int denom) {
 		return euclidean(num, denom, 0);
 	}
 	
-	private int euclidean(int a, int b, int gcd) {
+	private static int euclidean(int a, int b, int gcd) {
 		if(b == 0) return a;
 		gcd = a % b;
 		a = b;
 		b = gcd;
-		System.out.println(a);
-		System.out.println(b);
-		System.out.println(gcd);
 		return euclidean(a, b, gcd);
 	}
-	
-	
-	
-	
-	
-	
-
 }
