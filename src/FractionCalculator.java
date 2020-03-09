@@ -1,5 +1,9 @@
 import java.util.Scanner;
 
+/*
+ * Calculating with fractions
+ */
+
 public class FractionCalculator {
 	
 	static Scanner input = new Scanner(System.in);	
@@ -9,7 +13,7 @@ public class FractionCalculator {
 	static String operation;
 
 	public static void main(String[] args) {
-		start();		
+		start();
 	}
 	
 	public static void start() {
